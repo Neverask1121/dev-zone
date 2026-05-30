@@ -200,8 +200,8 @@ export default function InteractiveContentCardSystem({
               key={item.id}
               onClick={() => handleSelect(item)}
               className={cx(
-                "group cursor-pointer rounded-2xl border p-4 transition",
-                isSelected ? "scale-[1.02] border-blue-500 shadow-lg" : "hover:shadow-md"
+                "group cursor-pointer rounded-2xl border p-4 transition-all duration-500 ease-in-out hover:-translate-y-1 hover:-shadow-xl hover:bg-slate-900",
+                isSelected ? "scale-[1.02] border-blue-500 shadow-lg bg-slate-900" : "hover:border-blue-400"
               )}
               tabIndex={0}
               onKeyDown={(event) => event.key === "Enter" && handleSelect(item)}
@@ -209,8 +209,8 @@ export default function InteractiveContentCardSystem({
             >
               <CardMedia image={item.image} title={item.title} />
               <div className="mt-3 space-y-2">
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="text-sm text-slate-600">{item.description}</p>
+                <h3 className="text-lg font-semibold group-hover:text-blue-400 transition-colors">{item.title}</h3>
+                <p className="text-sm text-slate-600 group-hover:text-slate-300 transition-colors">{item.description}</p>
                 <CardTags tags={item.tags} />
               </div>
               <div className="mt-4 flex items-center justify-between">
