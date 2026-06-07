@@ -36,6 +36,10 @@ type ColorAccent = 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
+  // debouncedQuery lags behind searchQuery by 200 ms so the expensive
+  // useMemo filter only re-runs after the user pauses typing rather than
+  // on every keystroke.
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeTabs, setActiveTabs] = useState<Record<string, TechFramework>>({});
   const [accentColors, setAccentColors] = useState<Record<string, ColorAccent>>({});
@@ -65,6 +69,12 @@ export default function App() {
     }
   }, [darkMode]);
 
+  // Keep debouncedQuery in sync with searchQuery with a 200 ms delay.
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 200);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   // Global settings synced to all
   const [globalAccent, setGlobalAccent] = useState<ColorAccent>('violet');
   const [globalTab, setGlobalTab] = useState<TechFramework>('react');
@@ -82,15 +92,15 @@ export default function App() {
     }
   };
 
-  // Filter components
+  // Filter components using the debounced query to avoid re-running on every keystroke.
   const filteredComponents = useMemo(() => {
     return COMPONENTS.filter(comp => {
-      const matchesSearch = comp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            comp.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = comp.name.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+                            comp.description.toLowerCase().includes(debouncedQuery.toLowerCase());
       const matchesCategory = selectedCategory === 'all' || comp.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [debouncedQuery, selectedCategory]);
 
   const copyToClipboard = (text: string, compId: string) => {
     navigator.clipboard.writeText(text);
@@ -410,7 +420,7 @@ export default function App() {
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">No Components Found</h3>
                 <p className="text-sm text-slate-400 max-w-md mx-auto">
-                  We couldn't find any components matching "{searchQuery}". Try searching for other terms like "button", "card", "alert", or reset your category search.
+                  We couldn't find any components matching "{debouncedQuery}". Try searching for other terms like "button", "card", "alert", or reset your category search.
                 </p>
                 <button
                   onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
