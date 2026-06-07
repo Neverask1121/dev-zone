@@ -10,8 +10,12 @@ interface InteractivePreviewProps {
 export const InteractivePreview: React.FC<InteractivePreviewProps> = ({ id, color }) => {
   const cleanId = id.toLowerCase();
   
-  // Dynamic resolver mapping legacy preset IDs or file-prefix IDs to registry files
-  const pathKey = Object.keys(componentModules).find(key => {
+  // Sort keys before searching to guarantee a deterministic resolution order.
+  // Object.keys() on a Vite glob result has no guaranteed order across different
+  // bundler runs, OS locales, or file systems. Sorting alphabetically ensures
+  // the same component is always resolved regardless of build environment.
+  const sortedModuleKeys = Object.keys(componentModules).sort();
+  const pathKey = sortedModuleKeys.find(key => {
     const filename = key.split('/').pop()?.replace('.tsx', '').toLowerCase() || '';
     if (filename === cleanId.replace('reg-', '')) return true;
     if (cleanId === 'btn-glow' && filename === 'glowpremiumbutton') return true;
