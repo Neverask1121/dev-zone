@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 type NavItem = {
   id: string;
@@ -112,7 +113,7 @@ function NavNode({
             ) : null}
           </div>
           {item.path ? (
-            <div className={`mt-1 text-xs ${isActive ? "text-white/70" : "text-slate-400"}`}>{item.path}</div>
+            <Link to={item.path} className={`mt-1 text-xs ${isActive ? "text-white/70" : "text-slate-400"}`} onClick={() => onSelect(item.path!)}>{item.path}</Link>
           ) : null}
         </div>
         {hasChildren ? (
@@ -140,7 +141,9 @@ function NavNode({
 
 export default function ResponsiveMultiLevelNavigation() {
   const allPaths = useMemo(() => flattenPaths(navTree), []);
-  const [activePath, setActivePath] = useState(allPaths[0] ?? "/dashboard");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const activePath = location.pathname;
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     workspace: true,
     reports: true,
@@ -155,6 +158,7 @@ export default function ResponsiveMultiLevelNavigation() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // Ensure expanded groups reflect the current path
   useEffect(() => {
     const activeTrail = findPath(navTree, activePath);
     if (activeTrail) {
@@ -173,7 +177,7 @@ export default function ResponsiveMultiLevelNavigation() {
   };
 
   const selectPath = (path: string) => {
-    setActivePath(path);
+    navigate(path);
     if (compact) setMobileOpen(false);
   };
 
