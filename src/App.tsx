@@ -134,14 +134,20 @@ export default function App() {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
+    // Helper: HTML-encode characters that have special meaning in HTML.
+    // Applied to the raw string content (captured before the main pass) so
+    // that user-supplied values cannot inject markup into the span wrapper.
+    const encodeHtml = (s: string) =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
     // 1. Temporarily extract string literals to avoid double-highlighting inside HTML attributes
     const strings: string[] = [];
     highlighted = highlighted.replace(/"([^"\\]*(?:\\.[^"\\]*)*)"/g, (_, str) => {
-      strings.push(`<span class="text-[#10b981]">"${str}"</span>`);
+      strings.push(`<span class="text-[#10b981]">"${encodeHtml(str)}"</span>`);
       return `⚡⚡STR_PLACEHOLDER_${strings.length - 1}⚡⚡`;
     });
     highlighted = highlighted.replace(/'([^'\\]*(?:\\.[^'\\]*)*)'/g, (_, str) => {
-      strings.push(`<span class="text-[#10b981]">'${str}'</span>`);
+      strings.push(`<span class="text-[#10b981]">'${encodeHtml(str)}'</span>`);
       return `⚡⚡STR_PLACEHOLDER_${strings.length - 1}⚡⚡`;
     });
 
