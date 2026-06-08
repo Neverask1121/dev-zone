@@ -740,9 +740,17 @@ export default function App() {
                 <div className="flex-1 rounded-2xl bg-slate-950 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900/80 via-slate-950 to-slate-950 border border-slate-800/80 flex items-center justify-center p-6 relative overflow-auto">
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"></div>
                   
-                  <div 
-                    className="relative z-10 w-full flex justify-center"
-                    dangerouslySetInnerHTML={{ __html: playgroundCode }}
+                  {/* Render playground code inside a sandboxed iframe so that
+                      any HTML or script in playgroundCode is isolated from the
+                      parent document's origin and cannot access cookies, storage,
+                      or the parent DOM. Tailwind CDN is included so the preview
+                      renders class-based styles correctly. */}
+                  <iframe
+                    className="relative z-10 w-full border-0 rounded-xl"
+                    style={{ minHeight: '200px', background: 'transparent' }}
+                    title="Live preview"
+                    sandbox="allow-scripts"
+                    srcDoc={`<!DOCTYPE html><html><head><meta charset="UTF-8"><script src="https://cdn.tailwindcss.com"><\/script><style>body{margin:0;padding:1rem;background:transparent;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;box-sizing:border-box}</style></head><body>${playgroundCode}</body></html>`}
                   />
                 </div>
               </div>
