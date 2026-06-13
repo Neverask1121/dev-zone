@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
 import { 
   Search, 
   Copy, 
@@ -20,16 +19,11 @@ import {
   Heart,
   Code,
   Layers,
-  ArrowRight,
-  ChevronRight,
-  X,
-  GitBranch,
-  ArrowUp
+  X
 } from 'lucide-react';
 import { CATEGORIES, ALL_COMPONENTS as COMPONENTS } from './data/components';
 import { InteractivePreview } from './components/InteractivePreview';
-import ResponsiveMultiLevelNavigation from './components/ResponsiveMultiLevelNavigation';
-import NotFound from './components/NotFound';
+import ErrorBoundary from './components/ErrorBoundary';
 
 type TechFramework = 'html' | 'react' | 'nextjs' | 'vue' | 'angular';
 type ColorAccent = 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
@@ -510,7 +504,9 @@ export default function App() {
                           <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"></div>
                           
                           <div className={`w-full flex items-center justify-center transition-all duration-500 ${getSizingClass(compSize)}`}>
-                            <InteractivePreview id={comp.id} color={compAccent} />
+                            <ErrorBoundary>
+                              <InteractivePreview id={comp.id} color={compAccent} />
+                            </ErrorBoundary>
                           </div>
                         </div>
                       </div>
