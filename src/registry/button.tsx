@@ -5,9 +5,10 @@ import React from 'react';
 
 interface ContributedButtonProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
+  as?: React.ElementType;
 }
 
-export const ContributedButton: React.FC<ContributedButtonProps> = ({ color = 'violet' }) => {
+export const ContributedButton: React.FC<ContributedButtonProps> = ({ as: Component = 'button', color = 'violet' }) => {
   const accentStyles = {
     violet: 'from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.3)] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)]',
     emerald: 'from-emerald-600 to-teal-600 shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]',
@@ -17,8 +18,8 @@ export const ContributedButton: React.FC<ContributedButtonProps> = ({ color = 'v
   };
 
   return (
-    <button className={`px-6 py-2.5 rounded-xl text-white font-bold bg-gradient-to-r transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${accentStyles[color] || accentStyles.violet}`}>
+    <Component className={`px-6 py-2.5 rounded-xl text-white font-bold bg-gradient-to-r transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${accentStyles[color] || accentStyles.violet}`}>
       Dynamic Button PR
-    </button>
+    </Component>
   );
 };
