@@ -5,10 +5,35 @@ import React, { useState } from 'react';
 
 interface FloatingLabelInputProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
+  name?: string;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  type?: string;
+  placeholder?: string;
+  id?: string;
 }
 
-export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ color = 'violet' }) => {
-  const [inputValue, setInputValue] = useState('');
+export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ 
+  color = 'violet',
+  name,
+  value,
+  defaultValue = '',
+  onChange,
+  onBlur,
+  type = 'text',
+  placeholder = ' ',
+  id,
+}) => {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const isControlled = value !== undefined;
+  const currentValue = isControlled ? value : internalValue;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isControlled) setInternalValue(e.target.value);
+    onChange?.(e);
+  };
 
   const inputStyles = {
     violet: 'focus:ring-violet-600 peer-focus:text-violet-500 dark:peer-focus:text-violet-400',
@@ -21,15 +46,17 @@ export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ color = 
   return (
     <div className="relative w-full max-w-xs">
       <input 
-        type="text" 
-        id="floating_preview_reg"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder=" " 
+        type={type}
+        id={id}
+        name={name}
+        value={currentValue}
+        onChange={handleChange}
+        onBlur={onBlur}
+        placeholder={placeholder} 
         className={`block w-full px-4 py-3 text-sm text-white bg-slate-900 border border-slate-850 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:border-transparent peer transition-all duration-300 ${inputStyles[color] || inputStyles.violet}`} 
       />
       <label 
-        htmlFor="floating_preview_reg" 
+        htmlFor={id} 
         className="absolute text-xs text-slate-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-slate-950 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-3 pointer-events-none"
       >
         Email Address
