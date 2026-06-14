@@ -5,10 +5,12 @@ import React from 'react';
 
 interface GradientBorderButtonProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  as?: React.ElementType;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  children?: React.ReactNode;
+  disabled?: boolean;
 }
 
-export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({ as: Component = 'button', color = 'violet' }) => {
+export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({ color = 'violet', onClick, children, disabled }) => {
   const gradientBorderStyles = {
     violet: 'from-pink-500 via-purple-500 to-blue-500',
     emerald: 'from-emerald-500 via-teal-500 to-cyan-500',

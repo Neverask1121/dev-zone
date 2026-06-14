@@ -5,34 +5,27 @@ import React, { useState } from 'react';
 
 interface FloatingLabelInputProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  name?: string;
   value?: string;
   defaultValue?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  type?: string;
+  onChange?: (value: string) => void;
   placeholder?: string;
-  id?: string;
 }
 
-export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ 
+export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
   color = 'violet',
-  name,
-  value,
-  defaultValue = '',
+  value: controlledValue,
+  defaultValue,
   onChange,
-  onBlur,
-  type = 'text',
-  placeholder = ' ',
-  id,
+  placeholder
 }) => {
-  const [internalValue, setInternalValue] = useState(defaultValue);
-  const isControlled = value !== undefined;
-  const currentValue = isControlled ? value : internalValue;
+  const [internalValue, setInternalValue] = useState(defaultValue ?? '');
+
+  const isControlled = controlledValue !== undefined;
+  const inputValue = isControlled ? controlledValue : internalValue;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) setInternalValue(e.target.value);
-    onChange?.(e);
+    onChange?.(e.target.value);
   };
 
   const inputStyles = {
@@ -46,13 +39,11 @@ export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
   return (
     <div className="relative w-full max-w-xs">
       <input 
-        type={type}
-        id={id}
-        name={name}
-        value={currentValue}
+        type="text" 
+        id="floating_preview_reg"
+        value={inputValue}
         onChange={handleChange}
-        onBlur={onBlur}
-        placeholder={placeholder} 
+        placeholder={placeholder ?? ' '}
         className={`block w-full px-4 py-3 text-sm text-white bg-slate-900 border border-slate-850 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:border-transparent peer transition-all duration-300 ${inputStyles[color] || inputStyles.violet}`} 
       />
       <label 

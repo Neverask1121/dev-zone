@@ -6,10 +6,31 @@ import { Info, Sparkles, X } from 'lucide-react';
 
 interface GlassmorphicModalProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'violet' }) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({
+  color = 'violet',
+  open: controlledOpen,
+  defaultOpen,
+  onOpenChange
+}) => {
+  const [internalOpen, setInternalOpen] = useState(defaultOpen ?? false);
+
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+
+  const handleOpen = () => {
+    if (!isControlled) setInternalOpen(true);
+    onOpenChange?.(true);
+  };
+
+  const handleClose = () => {
+    if (!isControlled) setInternalOpen(false);
+    onOpenChange?.(false);
+  };
 
   const accentStyles = {
     violet: {
@@ -45,7 +66,7 @@ export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'v
     <div className="flex items-center justify-center">
       {/* Trigger Button */}
       <button 
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className={`px-6 py-2.5 rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${current.btn}`}
       >
         Open Dialog Modal
@@ -65,7 +86,7 @@ export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'v
                 <Info className="w-5 h-5" />
               </div>
               <button 
-                onClick={() => setIsOpen(false)}
+                onClick={() => handleClose()}
                 className="p-1 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
@@ -83,7 +104,7 @@ export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'v
             {/* Actions Layer */}
             <div className="flex items-center justify-end gap-3">
               <button 
-                onClick={() => setIsOpen(false)}
+                onClick={() => handleClose()}
                 className={`px-4.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${current.outlineBtn}`}
               >
                 Cancel Action
@@ -91,7 +112,7 @@ export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'v
               <button 
                 onClick={() => {
                   alert('Action Confirmed Successfully!');
-                  setIsOpen(false);
+                  handleClose();
                 }}
                 className={`px-5 py-2 rounded-xl text-white text-xs font-semibold transition-all hover:scale-[1.03] active:scale-[0.97] cursor-pointer ${current.btn}`}
               >

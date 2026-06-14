@@ -6,10 +6,30 @@ import { Info } from 'lucide-react';
 
 interface GlowNeonAlertProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
+  visible?: boolean;
+  defaultVisible?: boolean;
+  onDismiss?: () => void;
 }
 
-export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({ color = 'violet' }) => {
-  const [alertVisible, setAlertVisible] = useState(true);
+export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({
+  color = 'violet',
+  visible: controlledVisible,
+  defaultVisible,
+  onDismiss
+}) => {
+  const [internalVisible, setInternalVisible] = useState(defaultVisible ?? true);
+
+  const isControlled = controlledVisible !== undefined;
+  const alertVisible = isControlled ? controlledVisible : internalVisible;
+
+  const handleDismiss = () => {
+    if (!isControlled) setInternalVisible(false);
+    onDismiss?.();
+  };
+
+  const handleShow = () => {
+    if (!isControlled) setInternalVisible(true);
+  };
 
   const alertStyles = {
     violet: {
@@ -49,7 +69,7 @@ export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({ color = 'violet' }
   if (!alertVisible) {
     return (
       <button 
-        onClick={() => setAlertVisible(true)} 
+        onClick={handleShow} 
         className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs border border-slate-800 transition-colors"
       >
         Show Alert Again
@@ -66,7 +86,7 @@ export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({ color = 'violet' }
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <h4 className="text-xs font-bold text-white mb-0.5 tracking-wide">System Update</h4>
-          <button onClick={() => setAlertVisible(false)} className="text-[10px] text-slate-500 hover:text-slate-300">✕</button>
+          <button onClick={handleDismiss} className="text-[10px] text-slate-500 hover:text-slate-300">✕</button>
         </div>
         <p className="text-[10px] text-slate-400 leading-normal">
           Version 2.4.0 is ready. Features custom layout engines and smooth GPU accelerators.

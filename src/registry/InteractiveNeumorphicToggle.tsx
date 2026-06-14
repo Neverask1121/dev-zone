@@ -5,10 +5,27 @@ import React, { useState } from 'react';
 
 interface InteractiveNeumorphicToggleProps {
   color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: (checked: boolean) => void;
 }
 
-export const InteractiveNeumorphicToggle: React.FC<InteractiveNeumorphicToggleProps> = ({ color = 'violet' }) => {
-  const [isChecked, setIsChecked] = useState(false);
+export const InteractiveNeumorphicToggle: React.FC<InteractiveNeumorphicToggleProps> = ({
+  color = 'violet',
+  checked: controlledChecked,
+  defaultChecked,
+  onChange
+}) => {
+  const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
+
+  const isControlled = controlledChecked !== undefined;
+  const isChecked = isControlled ? controlledChecked : internalChecked;
+
+  const handleToggle = () => {
+    const next = !isChecked;
+    if (!isControlled) setInternalChecked(next);
+    onChange?.(next);
+  };
 
   const accentStyles = {
     violet: 'bg-violet-600 shadow-[0_0_15px_rgba(124,58,237,0.4)]',
@@ -24,7 +41,7 @@ export const InteractiveNeumorphicToggle: React.FC<InteractiveNeumorphicTogglePr
     <div className="flex items-center gap-3">
       <span className="text-xs font-semibold text-slate-400">System Audio</span>
       <button 
-        onClick={() => setIsChecked(!isChecked)}
+        onClick={handleToggle}
         className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none ${isChecked ? bgStyle : 'bg-slate-800'}`}
       >
         <span 
