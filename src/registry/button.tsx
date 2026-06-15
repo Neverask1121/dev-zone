@@ -18,6 +18,6 @@ export const ContributedButton: React.FC<ContributedButtonProps> = ({ color = 'v
   return (
     <button id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`px-6 py-2.5 rounded-xl text-white font-bold bg-gradient-to-r transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${accentStyles[color] || accentStyles.violet}${extraClassName ? ` ${extraClassName}` : ''}`}>
       Dynamic Button PR
-    </Component>
+    </button>
   );
 };

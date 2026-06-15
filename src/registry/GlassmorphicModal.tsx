@@ -10,6 +10,9 @@ interface GlassmorphicModalProps extends BaseComponentProps {}
 export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
   const accentStyles = {
     violet: {
       btn: 'bg-violet-600 hover:bg-violet-500 shadow-[0_0_20px_rgba(124,58,237,0.3)]',

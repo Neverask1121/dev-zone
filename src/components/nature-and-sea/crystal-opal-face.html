@@ -1,0 +1,17 @@
+from pathlib import Path
+
+FOLDER = r"galaxy-main\Cards"
+OUTPUT_FILE = "all_names.txt"
+
+folder = Path(FOLDER)
+
+files = sorted(
+    [f.name for f in folder.iterdir()
+     if f.is_file() and f.suffix.lower() == ".html"]
+)
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    for name in files:
+        f.write(name + "\n")
+
+print(f"Saved {len(files)} filenames to {OUTPUT_FILE}")

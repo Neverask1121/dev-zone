@@ -4,9 +4,11 @@
 import React, { useState } from 'react';
 import type { BaseComponentProps } from './types';
 
-interface FloatingLabelInputProps extends BaseComponentProps {}
+interface FloatingLabelInputProps extends BaseComponentProps {
+  placeholder?: string;
+}
 
-export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
+export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex, placeholder }) => {
   const [inputValue, setInputValue] = useState('');
 
   const inputStyles = {
@@ -23,7 +25,7 @@ export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ color = 
         type="text" 
         id="floating_preview_reg"
         value={inputValue}
-        onChange={handleChange}
+        onChange={(e) => setInputValue(e.target.value)}
         placeholder={placeholder ?? ' '}
         className={`block w-full px-4 py-3 text-sm text-white bg-slate-900 border border-slate-850 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:border-transparent peer transition-all duration-300 ${inputStyles[color] || inputStyles.violet}`} 
       />
