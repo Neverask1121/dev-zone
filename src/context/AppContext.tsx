@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useMemo, useEffect, type ReactNode } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect, useCallback, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Sparkles, Layout, FileText, Compass, Bell } from 'lucide-react';
 import { ALL_COMPONENTS as COMPONENTS } from '../data/components';
 
@@ -42,8 +43,28 @@ interface AppState {
 const AppContext = createContext<AppState | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchQuery = searchParams.get('q') || '';
+  const selectedCategory = searchParams.get('category') || 'all';
+
+  const setSearchQuery = useCallback((q: string) => {
+    setSearchParams((prev: URLSearchParams) => {
+      const next = new URLSearchParams(prev);
+      if (q) next.set('q', q);
+      else next.delete('q');
+      return next;
+    }, { replace: true });
+  }, [setSearchParams]);
+
+  const setSelectedCategory = useCallback((c: string) => {
+    setSearchParams((prev: URLSearchParams) => {
+      const next = new URLSearchParams(prev);
+      if (c && c !== 'all') next.set('category', c);
+      else next.delete('category');
+      return next;
+    }, { replace: true });
+  }, [setSearchParams]);
   const [activeTabs, setActiveTabs] = useState<Record<string, TechFramework>>({});
   const [accentColors, setAccentColors] = useState<Record<string, ColorAccent>>({});
   const [previewSizes, setPreviewSizes] = useState<Record<string, PreviewSize>>({});
