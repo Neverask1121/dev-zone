@@ -23,7 +23,7 @@ export const InteractiveNeumorphicToggle: React.FC<InteractiveNeumorphicTogglePr
     <div id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`flex items-center gap-3${extraClassName ? ` ${extraClassName}` : ''}`}>
       <span className="text-xs font-semibold text-slate-400">System Audio</span>
       <button 
-        onClick={handleToggle}
+        onClick={() => setIsChecked(!isChecked)}
         className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none ${isChecked ? bgStyle : 'bg-slate-800'}`}
       >
         <span 

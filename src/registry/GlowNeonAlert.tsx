@@ -65,7 +65,7 @@ export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({ color = 'violet', 
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <h4 className="text-xs font-bold text-white mb-0.5 tracking-wide">System Update</h4>
-          <button onClick={handleDismiss} className="text-[10px] text-slate-500 hover:text-slate-300">✕</button>
+          <button onClick={() => setAlertVisible(false)} className="text-[10px] text-slate-500 hover:text-slate-300">✕</button>
         </div>
         <p className="text-[10px] text-slate-400 leading-normal">
           Version 2.4.0 is ready. Features custom layout engines and smooth GPU accelerators.

@@ -21,7 +21,7 @@ export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({ colo
       <span className="relative block px-7 py-3 rounded-[11px] bg-slate-950 text-slate-100 font-semibold group-hover:text-white transition-colors duration-300">
         Explore Collections
       </span>
-    </Component>
+    </button>
   );
 };
 

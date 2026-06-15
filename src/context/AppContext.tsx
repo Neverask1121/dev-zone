@@ -69,7 +69,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [accentColors, setAccentColors] = useState<Record<string, ColorAccent>>({});
   const [previewSizes, setPreviewSizes] = useState<Record<string, PreviewSize>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [showPlayground, setShowPlayground] = useState(false);
   const [playgroundCode, setPlaygroundCode] = useState(`<div class="p-6 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-2xl text-center max-w-sm">
   <h3 class="text-lg font-bold mb-2">My Contributed UI</h3>
@@ -81,14 +81,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
-  }, [darkMode]);
+    root.classList.add('light');
+    root.classList.remove('dark');
+  }, []);
 
   const getCategoryIcon = (iconName: string) => {
     const classStr = "w-4.5 h-4.5 shrink-0";

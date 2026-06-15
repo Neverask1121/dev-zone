@@ -32,7 +32,7 @@ export const InteractiveGlowTabs: React.FC<InteractiveGlowTabsProps> = ({ color 
         return (
           <button
             key={tab.id}
-            onClick={() => handleTabChange(tab.id)}
+            onClick={() => setActiveTab(tab.id)}
             className={`flex-1 py-2 text-[11px] font-bold rounded-lg transition-all duration-300 cursor-pointer ${isActive ? `${currentStyle} shadow-lg border` : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
           >
             {tab.label}

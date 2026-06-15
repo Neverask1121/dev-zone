@@ -66,8 +66,8 @@ function ContentBlock({ index }: { index: number }) {
   );
 }
 
-function Hint({ text }: { text: string }) {
-  return <div style={{ color: "#334155", fontSize: 14, lineHeight: "22px" }}>{text}</div>;
+function Hint({ children }: { children: React.ReactNode }) {
+  return <div style={{ color: "#334155", fontSize: 14, lineHeight: "22px" }}>{children}</div>;
 }
 
 export default function FloatingMobileActionDock() {
