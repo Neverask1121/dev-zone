@@ -1,0 +1,15 @@
+from pathlib import Path
+
+CARDS_FOLDER = Path(r"galaxy-main\Cards")
+OUTPUT_FILE = Path(r"galaxy-main\all_names.txt")  # Save in galaxy-main root
+
+files = sorted(
+    [f.name for f in CARDS_FOLDER.glob("*.html")]
+)
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    for name in files:
+        f.write(name + "\n")
+
+print(f"Saved {len(files)} filenames to:")
+print(OUTPUT_FILE.resolve())
