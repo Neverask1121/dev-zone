@@ -1,4 +1,5 @@
-import { Search, Layers, Code, Layout as LayoutIcon, Sparkles, Eye, Terminal, Laptop, Tablet, Smartphone, Copy, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, Layers, Code, Layout as LayoutIcon, Sparkles, Eye, Terminal, Laptop, Tablet, Smartphone, Copy, Check, ExternalLink } from 'lucide-react';
 import { CATEGORIES, ALL_COMPONENTS as COMPONENTS } from '../data/components';
 import { InteractivePreview } from '../components/InteractivePreview';
 import { useAppContext } from '../context/AppContext';
@@ -144,11 +145,23 @@ export default function HomePage() {
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-250 dark:border-slate-800 pb-5">
                     <div>
                       <div className="flex items-center gap-2.5 mb-1.5">
-                        <h2 className="text-lg md:text-xl font-bold tracking-wide text-white dark:block hidden">{comp.name}</h2>
-                        <h2 className="text-lg md:text-xl font-bold tracking-wide text-slate-950 dark:hidden block">{comp.name}</h2>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-black/25 dark:bg-white/5 border border-white/5 text-indigo-400 uppercase tracking-wide font-mono">
+                        <Link
+                          to={`/component/${comp.id}`}
+                          className="no-underline group/title"
+                        >
+                          <h2 className="text-lg md:text-xl font-bold tracking-wide text-white dark:block hidden hover:text-indigo-400 transition-colors">{comp.name}</h2>
+                          <h2 className="text-lg md:text-xl font-bold tracking-wide text-slate-950 dark:hidden block hover:text-indigo-600 transition-colors">{comp.name}</h2>
+                        </Link>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-black/25 dark:bg-white/5 border border-white/5 text-indigo-400 uppercase tracking-wide font-mono capitalize">
                           {comp.category}
                         </span>
+                        <Link
+                          to={`/component/${comp.id}`}
+                          className="text-[10px] font-semibold text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1 no-underline"
+                          title="Open component page"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                        </Link>
                       </div>
                       <p className="text-xs md:text-sm text-slate-400 leading-relaxed max-w-2xl">{comp.description}</p>
                     </div>
