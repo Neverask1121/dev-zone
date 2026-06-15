@@ -1,0 +1,16 @@
+name: 🚀 Feature Request
+description: Propose a new UI component or enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We appreciate your feedback and ideas for FreeUI!
+  - type: textarea
+    id: idea
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of the feature you'd like to suggest.
+    validations:
+      required: true
