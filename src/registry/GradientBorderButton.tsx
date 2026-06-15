@@ -2,15 +2,11 @@
 // description: An elegant dark-themed border button that lights up with high-tech neon gradient borders on focus/hover.
 
 import React from 'react';
+import type { BaseComponentProps } from './types';
 
-interface GradientBorderButtonProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  children?: React.ReactNode;
-  disabled?: boolean;
-}
+interface GradientBorderButtonProps extends BaseComponentProps {}
 
-export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({ color = 'violet', onClick, children, disabled }) => {
+export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
   const gradientBorderStyles = {
     violet: 'from-pink-500 via-purple-500 to-blue-500',
     emerald: 'from-emerald-500 via-teal-500 to-cyan-500',
@@ -20,7 +16,7 @@ export const GradientBorderButton: React.FC<GradientBorderButtonProps> = ({ colo
   };
 
   return (
-    <Component className="relative p-[1.5px] rounded-xl overflow-hidden group bg-transparent transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+    <button id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`relative p-[1.5px] rounded-xl overflow-hidden group bg-transparent transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]${extraClassName ? ` ${extraClassName}` : ''}`}>
       <span className={`absolute inset-0 bg-gradient-to-r rounded-xl opacity-70 group-hover:opacity-100 group-hover:rotate-180 transition-all duration-700 ${gradientBorderStyles[color]}`}></span>
       <span className="relative block px-7 py-3 rounded-[11px] bg-slate-950 text-slate-100 font-semibold group-hover:text-white transition-colors duration-300">
         Explore Collections

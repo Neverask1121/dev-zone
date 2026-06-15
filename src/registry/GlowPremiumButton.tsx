@@ -3,15 +3,11 @@
 
 import React from 'react';
 import { Sparkles } from 'lucide-react';
+import type { BaseComponentProps } from './types';
 
-interface GlowPremiumButtonProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  children?: React.ReactNode;
-  disabled?: boolean;
-}
+interface GlowPremiumButtonProps extends BaseComponentProps {}
 
-export const GlowPremiumButton: React.FC<GlowPremiumButtonProps> = ({ color = 'violet', onClick, children, disabled }) => {
+export const GlowPremiumButton: React.FC<GlowPremiumButtonProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
   const glowBtnStyles = {
     violet: 'from-violet-600 to-indigo-600 shadow-[0_0_20px_rgba(124,58,237,0.35)] hover:shadow-[0_0_30px_rgba(124,58,237,0.55)]',
     emerald: 'from-emerald-600 to-teal-600 shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:shadow-[0_0_30px_rgba(16,185,129,0.55)]',
@@ -21,7 +17,7 @@ export const GlowPremiumButton: React.FC<GlowPremiumButtonProps> = ({ color = 'v
   };
 
   return (
-    <button onClick={onClick} disabled={disabled} className={`relative group overflow-hidden px-8 py-3.5 rounded-xl bg-gradient-to-r text-white font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${glowBtnStyles[color]}`}>
+    <button id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`relative group overflow-hidden px-8 py-3.5 rounded-xl bg-gradient-to-r text-white font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${glowBtnStyles[color]}${extraClassName ? ` ${extraClassName}` : ''}`}>
       <span className="relative z-10 flex items-center justify-center gap-2">
         {children || <>Get Started Free <Sparkles className="w-4 h-4" /></>}
       </span>

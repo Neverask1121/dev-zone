@@ -2,31 +2,12 @@
 // description: An elegant, fluid input component with a floating placeholder that scales down on focus.
 
 import React, { useState } from 'react';
+import type { BaseComponentProps } from './types';
 
-interface FloatingLabelInputProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  placeholder?: string;
-}
+interface FloatingLabelInputProps extends BaseComponentProps {}
 
-export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
-  color = 'violet',
-  value: controlledValue,
-  defaultValue,
-  onChange,
-  placeholder
-}) => {
-  const [internalValue, setInternalValue] = useState(defaultValue ?? '');
-
-  const isControlled = controlledValue !== undefined;
-  const inputValue = isControlled ? controlledValue : internalValue;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isControlled) setInternalValue(e.target.value);
-    onChange?.(e.target.value);
-  };
+export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
+  const [inputValue, setInputValue] = useState('');
 
   const inputStyles = {
     violet: 'focus:ring-violet-600 peer-focus:text-violet-500 dark:peer-focus:text-violet-400',
@@ -37,7 +18,7 @@ export const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
   };
 
   return (
-    <div className="relative w-full max-w-xs">
+    <div id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`relative w-full max-w-xs${extraClassName ? ` ${extraClassName}` : ''}`}>
       <input 
         type="text" 
         id="floating_preview_reg"

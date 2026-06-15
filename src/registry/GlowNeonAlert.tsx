@@ -3,33 +3,12 @@
 
 import React, { useState } from 'react';
 import { Info } from 'lucide-react';
+import type { BaseComponentProps } from './types';
 
-interface GlowNeonAlertProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  visible?: boolean;
-  defaultVisible?: boolean;
-  onDismiss?: () => void;
-}
+interface GlowNeonAlertProps extends BaseComponentProps {}
 
-export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({
-  color = 'violet',
-  visible: controlledVisible,
-  defaultVisible,
-  onDismiss
-}) => {
-  const [internalVisible, setInternalVisible] = useState(defaultVisible ?? true);
-
-  const isControlled = controlledVisible !== undefined;
-  const alertVisible = isControlled ? controlledVisible : internalVisible;
-
-  const handleDismiss = () => {
-    if (!isControlled) setInternalVisible(false);
-    onDismiss?.();
-  };
-
-  const handleShow = () => {
-    if (!isControlled) setInternalVisible(true);
-  };
+export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
+  const [alertVisible, setAlertVisible] = useState(true);
 
   const alertStyles = {
     violet: {
@@ -68,9 +47,9 @@ export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({
 
   if (!alertVisible) {
     return (
-      <button 
-        onClick={handleShow} 
-        className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs border border-slate-800 transition-colors"
+      <button id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex}
+        onClick={() => setAlertVisible(true)} 
+        className={`px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs border border-slate-800 transition-colors${extraClassName ? ` ${extraClassName}` : ''}`}
       >
         Show Alert Again
       </button>
@@ -78,7 +57,7 @@ export const GlowNeonAlert: React.FC<GlowNeonAlertProps> = ({
   }
 
   return (
-    <div className={`relative overflow-hidden w-full max-w-xs p-3.5 rounded-xl border flex items-start gap-3 group transition-all duration-300 ${current.container}`}>
+    <div id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`relative overflow-hidden w-full max-w-xs p-3.5 rounded-xl border flex items-start gap-3 group transition-all duration-300 ${current.container}${extraClassName ? ` ${extraClassName}` : ''}`}>
       <div className={`absolute top-0 left-0 w-1 h-full ${current.line}`}></div>
       <div className={`p-1.5 rounded-lg shrink-0 ${current.icon}`}>
         <Info className="w-4 h-4" />

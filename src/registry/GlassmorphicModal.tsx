@@ -3,34 +3,12 @@
 
 import React, { useState } from 'react';
 import { Info, Sparkles, X } from 'lucide-react';
+import type { BaseComponentProps } from './types';
 
-interface GlassmorphicModalProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-}
+interface GlassmorphicModalProps extends BaseComponentProps {}
 
-export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({
-  color = 'violet',
-  open: controlledOpen,
-  defaultOpen,
-  onOpenChange
-}) => {
-  const [internalOpen, setInternalOpen] = useState(defaultOpen ?? false);
-
-  const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : internalOpen;
-
-  const handleOpen = () => {
-    if (!isControlled) setInternalOpen(true);
-    onOpenChange?.(true);
-  };
-
-  const handleClose = () => {
-    if (!isControlled) setInternalOpen(false);
-    onOpenChange?.(false);
-  };
+export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   const accentStyles = {
     violet: {
@@ -63,7 +41,7 @@ export const GlassmorphicModal: React.FC<GlassmorphicModalProps> = ({
   const current = accentStyles[color] || accentStyles.violet;
 
   return (
-    <div className="flex items-center justify-center">
+    <div id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`flex items-center justify-center${extraClassName ? ` ${extraClassName}` : ''}`}>
       {/* Trigger Button */}
       <button 
         onClick={handleOpen}

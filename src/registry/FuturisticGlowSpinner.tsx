@@ -2,12 +2,11 @@
 // description: A gorgeous multi-ring radial loader designed for futuristic dashboards and asynchronous tasks.
 
 import React from 'react';
+import type { BaseComponentProps } from './types';
 
-interface FuturisticGlowSpinnerProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-}
+interface FuturisticGlowSpinnerProps extends BaseComponentProps {}
 
-export const FuturisticGlowSpinner: React.FC<FuturisticGlowSpinnerProps> = ({ color = 'violet' }) => {
+export const FuturisticGlowSpinner: React.FC<FuturisticGlowSpinnerProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
   const loaderStyles = {
     violet: { ring: 'border-violet-500/10', spinner: 'border-t-violet-500 border-r-pink-500', dash: 'border-indigo-400' },
     emerald: { ring: 'border-emerald-500/10', spinner: 'border-t-emerald-500 border-r-teal-500', dash: 'border-cyan-400' },
@@ -19,7 +18,7 @@ export const FuturisticGlowSpinner: React.FC<FuturisticGlowSpinnerProps> = ({ co
   const current = loaderStyles[color] || loaderStyles.violet;
 
   return (
-    <div className="relative flex items-center justify-center w-12 h-12">
+    <div id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`relative flex items-center justify-center w-12 h-12${extraClassName ? ` ${extraClassName}` : ''}`}>
       <div className={`absolute inset-0 rounded-full border-4 ${current.ring}`}></div>
       <div className={`absolute inset-0 rounded-full border-4 border-transparent animate-spin ${current.spinner}`}></div>
       <div className={`absolute w-6 h-6 rounded-full border-4 border-dashed animate-[spin_3s_linear_infinite_reverse] ${current.dash}`}></div>

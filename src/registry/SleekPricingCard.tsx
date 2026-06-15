@@ -3,12 +3,11 @@
 
 import React from 'react';
 import { Check } from 'lucide-react';
+import type { BaseComponentProps } from './types';
 
-interface SleekPricingCardProps {
-  color?: 'violet' | 'emerald' | 'rose' | 'blue' | 'amber';
-}
+interface SleekPricingCardProps extends BaseComponentProps {}
 
-export const SleekPricingCard: React.FC<SleekPricingCardProps> = ({ color = 'violet' }) => {
+export const SleekPricingCard: React.FC<SleekPricingCardProps> = ({ color = 'violet', id, className: extraClassName, style, 'data-testid': testId, role, tabIndex }) => {
   const accentStyles = {
     violet: {
       btn: 'bg-violet-600 hover:bg-violet-500 shadow-[0_0_20px_rgba(124,58,237,0.3)]',
@@ -40,7 +39,7 @@ export const SleekPricingCard: React.FC<SleekPricingCardProps> = ({ color = 'vio
   const current = accentStyles[color] || accentStyles.violet;
 
   return (
-    <div className="w-full max-w-xs rounded-2xl bg-slate-900 border border-slate-800 p-6 shadow-2xl relative overflow-hidden group">
+    <div id={id} style={style} data-testid={testId} role={role} tabIndex={tabIndex} className={`w-full max-w-xs rounded-2xl bg-slate-900 border border-slate-800 p-6 shadow-2xl relative overflow-hidden group${extraClassName ? ` ${extraClassName}` : ''}`}>
       {/* Top Accent Ring */}
       <div className={`absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-15 bg-gradient-to-br from-white to-transparent`}></div>
 
