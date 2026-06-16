@@ -12,6 +12,55 @@ Currently, two official plugins are available:
 - [React Compiler](#react-compiler)
 - [Expanding the ESLint Configuration](#expanding-the-eslint-configuration)
 
+## Project Structure
+
+```text
+.
+├── .github/
+│   ├── ISSUE_TEMPLATE/      # GitHub issue templates
+│   └── workflows/           # GitHub Actions workflows
+├── components/             # Shared project components
+├── public/
+│   ├── favicon.svg         # Website favicon
+│   └── icons.svg           # SVG icon assets
+├── src/
+│   ├── assets/             # Images and static resources
+│   ├── components/
+│   │   ├── cards/
+│   │   ├── nature-and-sea/
+│   │   └── wild-cards/
+│   ├── context/            # React context providers
+│   ├── data/               # Application data and configuration
+│   ├── pages/              # Application pages/routes
+│   ├── registry/           # Registry definitions
+│   ├── App.tsx             # Root application component
+│   ├── App.css             # App-specific styles
+│   ├── index.css           # Global styles
+│   └── main.tsx            # Application entry point
+├── .gitignore
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── eslint.config.js
+├── index.html
+├── License.md
+├── package.json
+├── package-lock.json
+└── postcss.config.js
+```
+
+### Directory Overview
+
+| Directory | Purpose |
+|------------|---------|
+| `.github/` | Repository templates and GitHub Actions workflows |
+| `public/` | Static assets served directly by Vite |
+| `src/assets/` | Images, icons, and other resources |
+| `src/components/` | Reusable React components |
+| `src/context/` | Global React Context providers |
+| `src/data/` | Application data and configuration |
+| `src/pages/` | Page-level components |
+| `src/registry/` | Registry definitions and mappings |
+
 ## React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
